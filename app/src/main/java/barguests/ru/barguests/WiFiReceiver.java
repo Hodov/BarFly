@@ -15,7 +15,10 @@ public class WiFiReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        SlackSender sender = new SlackSender();
+
         NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+
         if(info != null) {
             if(info.isConnected()) {
                 // Do your work.
@@ -24,6 +27,7 @@ public class WiFiReceiver extends BroadcastReceiver {
                 WifiManager wifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
                 WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                 String ssid = wifiInfo.getSSID();
+                sender.sendText(ssid);
             }
         }
     }
